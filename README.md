@@ -240,7 +240,7 @@ host that wants to drive it without shelling out to `bin/st`:
 import { createSt, asAgent } from '@compoundingtech/smalltalk';
 
 const st = createSt({
-  root: '/Users/me/.local/state/smalltalk',
+  root: '/Users/example/.local/state/smalltalk',
   identity: asAgent('me'),
 });
 
@@ -282,7 +282,7 @@ portably. For hosts that need a hand-written config, the shape is:
     "smalltalk": {
       "command": "st",
       "args": ["mcp"],
-      "env": { "ST_ROOT": "/Users/me/.local/state/smalltalk", "ST_AGENT": "me" }
+      "env": { "ST_ROOT": "/Users/example/.local/state/smalltalk", "ST_AGENT": "me" }
     }
   }
 }
@@ -312,7 +312,7 @@ hosts. The hand-written shape:
     "smalltalk": {
       "command": "st",
       "args": ["mcp", "--channel"],
-      "env": { "ST_ROOT": "/Users/me/.local/state/smalltalk", "ST_AGENT": "me" }
+      "env": { "ST_ROOT": "/Users/example/.local/state/smalltalk", "ST_AGENT": "me" }
     }
   }
 }

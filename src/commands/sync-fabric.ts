@@ -403,7 +403,7 @@ function setUpTransport(
   }
   const fabricPeer = peer.slice('fabric:'.length);
   if (fabricPeer.length === 0) {
-    throw new Error('fabric: peer requires a name, e.g. fabric:hetzner');
+    throw new Error('fabric: peer requires a name, e.g. fabric:example-host');
   }
   // `fabric dial <peer> <proto>` prints the local socket path and exits; the
   // fabric daemon keeps the socket alive.

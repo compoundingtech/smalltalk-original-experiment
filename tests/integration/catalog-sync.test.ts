@@ -40,14 +40,14 @@ d('catalog union-sync (real rsync)', () => {
   });
 
   it('carries a catalog file across, MTIME-PRESERVING', () => {
-    writeFileSync(join(localCat, 'silber.cos-claude.toml'), 'host = "silber"\nretired = false\n');
-    utimesSync(join(localCat, 'silber.cos-claude.toml'), OLD_MTIME_S, OLD_MTIME_S);
+    writeFileSync(join(localCat, 'example-mac.cos-claude.toml'), 'host = "example-mac"\nretired = false\n');
+    utimesSync(join(localCat, 'example-mac.cos-claude.toml'), OLD_MTIME_S, OLD_MTIME_S);
 
     catalogUnionSync(localCat, `${remoteCat}/`, [], 30);
 
-    expect(readFileSync(join(remoteCat, 'silber.cos-claude.toml'), 'utf8')).toContain('host = "silber"');
+    expect(readFileSync(join(remoteCat, 'example-mac.cos-claude.toml'), 'utf8')).toContain('host = "example-mac"');
     // Source mtime preserved, not receive-time (same guarantee as the bus).
-    expect(mtimeS(join(remoteCat, 'silber.cos-claude.toml'))).toBe(OLD_MTIME_S);
+    expect(mtimeS(join(remoteCat, 'example-mac.cos-claude.toml'))).toBe(OLD_MTIME_S);
   });
 
   it('newer-wins: a retired=true EDIT propagates (decommission is an edit, not an rm)', () => {
@@ -66,8 +66,8 @@ d('catalog union-sync (real rsync)', () => {
   });
 
   it('union: a remote-only catalog file lands locally, and nothing is deleted', () => {
-    writeFileSync(join(remoteCat, 'b.toml'), 'host = "hetz"\n');
-    writeFileSync(join(localCat, 'c.toml'), 'host = "silber"\n');
+    writeFileSync(join(remoteCat, 'b.toml'), 'host = "example-linux"\n');
+    writeFileSync(join(localCat, 'c.toml'), 'host = "example-mac"\n');
 
     catalogUnionSync(localCat, `${remoteCat}/`, [], 30);
 
@@ -97,7 +97,7 @@ d('two-pass net-dir sync: smalltalk/ + catalog/ sync, pty/ + worktrees/ never do
     mkdirSync(join(localNet, 'smalltalk', 'bob', 'archive'), { recursive: true });
     writeFileSync(join(localNet, 'smalltalk', 'bob', 'status'), 'available');
     mkdirSync(join(localNet, 'catalog'), { recursive: true });
-    writeFileSync(join(localNet, 'catalog', 'bob.toml'), 'host = "silber"\n');
+    writeFileSync(join(localNet, 'catalog', 'bob.toml'), 'host = "example-mac"\n');
     mkdirSync(join(localNet, 'pty'), { recursive: true });
     writeFileSync(join(localNet, 'pty', 'sess.pid'), 'machine-local');
     mkdirSync(join(localNet, 'worktrees'), { recursive: true });

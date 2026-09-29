@@ -87,8 +87,8 @@ describe('resolveStShimPath', () => {
   it('does not return a hardcoded /Volumes/... path', () => {
     // Defensive: the only way this test would fail on a non-mac dev
     // machine is if someone hardcoded a developer path. The check is
-    // narrow on purpose — `/Users/...` and `/home/...` are legitimate
-    // install locations on real machines.
+    // narrow on purpose — home directories under `/Users` and `/home` are
+    // legitimate install locations on real machines.
     const p = resolveStShimPath();
     // The path may *coincidentally* live under /Volumes when the repo
     // checkout itself does — that's fine, we just want to verify it's

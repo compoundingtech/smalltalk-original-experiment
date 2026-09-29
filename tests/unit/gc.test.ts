@@ -25,7 +25,7 @@ beforeEach(() => {
   stdoutBuf = '';
   stderrBuf = '';
   ctx = {
-    env: { ST_AGENT: 'silber.alice' },
+    env: { ST_AGENT: 'example-mac.alice' },
     stRoot,
     stConfig: '/unused',
     stdout: (s) => {
@@ -58,35 +58,35 @@ function seedZombieAndFresh(root: string, id: string): void {
 
 describe('cmdGcServe — --once', () => {
   it('sweeps the resurrected twin, preserves the fresh message, returns 0', async () => {
-    seedZombieAndFresh(stRoot, 'silber.alice');
+    seedZombieAndFresh(stRoot, 'example-mac.alice');
     const rc = await cmdGcServe({ root: stRoot, intervalMs: 2000, once: true }, ctx);
     expect(rc).toBe(0);
     expect(stderrBuf).toContain('# gc: swept 1 redundant inbox file(s)');
-    expect(existsSync(join(stRoot, 'silber.alice', 'inbox', twin))).toBe(false);
-    expect(existsSync(join(stRoot, 'silber.alice', 'inbox', fresh))).toBe(true);
+    expect(existsSync(join(stRoot, 'example-mac.alice', 'inbox', twin))).toBe(false);
+    expect(existsSync(join(stRoot, 'example-mac.alice', 'inbox', fresh))).toBe(true);
     // archive twin is the surviving tombstone
-    expect(existsSync(join(stRoot, 'silber.alice', 'archive', twin))).toBe(true);
+    expect(existsSync(join(stRoot, 'example-mac.alice', 'archive', twin))).toBe(true);
   });
 
   it('clean bus → swept 0, no removals', async () => {
-    setupAgent(stRoot, 'silber.alice');
-    writeFileSync(join(stRoot, 'silber.alice', 'inbox', fresh), 'live');
+    setupAgent(stRoot, 'example-mac.alice');
+    writeFileSync(join(stRoot, 'example-mac.alice', 'inbox', fresh), 'live');
     const rc = await cmdGcServe({ root: stRoot, intervalMs: 2000, once: true }, ctx);
     expect(rc).toBe(0);
     expect(stderrBuf).toContain('# gc: swept 0 redundant inbox file(s)');
-    expect(existsSync(join(stRoot, 'silber.alice', 'inbox', fresh))).toBe(true);
+    expect(existsSync(join(stRoot, 'example-mac.alice', 'inbox', fresh))).toBe(true);
   });
 
   it('too-shallow root → WARN, and sweeps 0 (the incident shape, now loud)', async () => {
     // Bus nested one level below the given root.
-    seedZombieAndFresh(join(stRoot, 'default', 'smalltalk'), 'silber.alice');
+    seedZombieAndFresh(join(stRoot, 'default', 'smalltalk'), 'example-mac.alice');
     const rc = await cmdGcServe({ root: stRoot, intervalMs: 2000, once: true }, ctx);
     expect(rc).toBe(0);
     expect(stderrBuf).toContain('too shallow');
     expect(stderrBuf).toContain('# gc: swept 0 redundant inbox file(s)');
     // the real (nested) zombie is untouched by a sweep at the wrong root
     expect(
-      existsSync(join(stRoot, 'default', 'smalltalk', 'silber.alice', 'inbox', twin))
+      existsSync(join(stRoot, 'default', 'smalltalk', 'example-mac.alice', 'inbox', twin))
     ).toBe(true);
   });
 });
@@ -111,18 +111,18 @@ describe('cmdGcCli — dispatch + arg parsing', () => {
   });
 
   it('serve --once routes through to a real sweep', async () => {
-    seedZombieAndFresh(stRoot, 'silber.alice');
+    seedZombieAndFresh(stRoot, 'example-mac.alice');
     const rc = await cmdGcCli(['serve', '--once'], ctx);
     expect(rc).toBe(0);
-    expect(existsSync(join(stRoot, 'silber.alice', 'inbox', twin))).toBe(false);
+    expect(existsSync(join(stRoot, 'example-mac.alice', 'inbox', twin))).toBe(false);
   });
 
   it('serve --root overrides $ST_ROOT', async () => {
     const other = join(scratch, 'other-bus');
-    seedZombieAndFresh(other, 'silber.bob');
+    seedZombieAndFresh(other, 'example-mac.bob');
     const rc = await cmdGcCli(['serve', '--root', other, '--once'], ctx);
     expect(rc).toBe(0);
-    expect(existsSync(join(other, 'silber.bob', 'inbox', twin))).toBe(false);
+    expect(existsSync(join(other, 'example-mac.bob', 'inbox', twin))).toBe(false);
   });
 
   it('--interval rejects non-positive / non-numeric', () => {

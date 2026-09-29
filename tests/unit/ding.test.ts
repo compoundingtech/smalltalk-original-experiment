@@ -1918,7 +1918,7 @@ describe('runDing — scan-on-startup', () => {
     // (2h ago) — below status. The old mtime-only gate dropped it; the
     // filename-ts (via max) now rescues it.
     const fn = `${Date.now() - 5_000}-xmxmxm.md`;
-    plantInboxFile(fn, 2 * 60 * 60_000, 'hetz.bob', 'cross'); // mtime 2h ago
+    plantInboxFile(fn, 2 * 60 * 60_000, 'example-linux.bob', 'cross'); // mtime 2h ago
     fake.setStatus('available');
     const r = startDing({ st: fake.st, ptySend: sender.send });
     await settle();

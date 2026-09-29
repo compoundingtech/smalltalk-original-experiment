@@ -314,9 +314,9 @@ describe('transport hardening', () => {
 
 describe('serve-side config + registration', () => {
   it('rsyncdConfContent declares a read-write module on the net dir, excluding local subtrees', () => {
-    const conf = rsyncdConfContent('/home/u/.local/state/convoy/default');
+    const conf = rsyncdConfContent('/home/example/.local/state/convoy/default');
     expect(conf).toContain('[net]');
-    expect(conf).toContain('path = /home/u/.local/state/convoy/default');
+    expect(conf).toContain('path = /home/example/.local/state/convoy/default');
     expect(conf).toContain('read only = false');
     expect(conf).toContain('use chroot = false');
     // pty/ + worktrees/ stay machine-local — the daemon must not serve them.
