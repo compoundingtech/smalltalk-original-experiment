@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    pty.url = "github:compoundingtech/pty";
+    pty.url = "github:compoundingtech/pty-original-experiment";
     pty.inputs.nixpkgs.follows = "nixpkgs";
   };
 

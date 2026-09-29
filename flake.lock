@@ -44,13 +44,13 @@
         "lastModified": 1784556029,
         "narHash": "sha256-52SqV7ANR/r+gqGNo/e2JUmQImpmCgmMUScd0KZlTW0=",
         "owner": "compoundingtech",
-        "repo": "pty",
+        "repo": "pty-original-experiment",
         "rev": "0a9be8c06bd9e3f0c1acbb34784762075ef53eb3",
         "type": "github"
       },
       "original": {
         "owner": "compoundingtech",
-        "repo": "pty",
+        "repo": "pty-original-experiment",
         "type": "github"
       }
     },

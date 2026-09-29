@@ -30,13 +30,13 @@ import { getAgents } from '../../src/commands/agents.ts';
 // ST_ROOT points at the synced `smalltalk/` subdir of a named network.
 const ROOT = '/xdg/state/convoy/default/smalltalk';
 // Agent ids are host-prefixed under the new layout.
-const ID = 'silber.cos-claude';
+const ID = 'example-mac.cos-claude';
 
 describe('convoy redesign layout — host-prefixed ids are valid agents', () => {
   it('accepts host.identity forms (period-separated hierarchy)', () => {
-    expect(validAgent('silber.cos-claude')).toBe(true);
-    expect(validAgent('hetz.app-web-claude')).toBe(true);
-    expect(validAgent('silber.orchestrator.session-1.child-7')).toBe(true);
+    expect(validAgent('example-mac.cos-claude')).toBe(true);
+    expect(validAgent('example-linux.app-web-claude')).toBe(true);
+    expect(validAgent('example-mac.orchestrator.session-1.child-7')).toBe(true);
   });
 });
 
@@ -60,11 +60,11 @@ describe('convoy redesign layout — enumeration lists host-prefixed bus folders
   beforeEach(() => {
     // A real smalltalk/ subdir holding two host-prefixed agent folders.
     root = mkdtempSync(join(tmpdir(), 'convoy-layout-'));
-    for (const id of ['silber.app-web-claude', 'hetz.hetz-codex']) {
+    for (const id of ['example-mac.app-web-claude', 'example-linux.example-linux-codex']) {
       mkdirSync(join(root, id, 'inbox'), { recursive: true });
       mkdirSync(join(root, id, 'archive'), { recursive: true });
     }
-    writeFileSync(join(root, 'silber.app-web-claude', 'status'), 'available');
+    writeFileSync(join(root, 'example-mac.app-web-claude', 'status'), 'available');
   });
   afterEach(() => {
     rmSync(root, { recursive: true, force: true });
@@ -73,10 +73,10 @@ describe('convoy redesign layout — enumeration lists host-prefixed bus folders
   it('getAgents enumerates host-prefixed folders with their status', () => {
     const agents = getAgents(root);
     expect(agents.map((a) => a.identity).sort()).toEqual([
-      'hetz.hetz-codex',
-      'silber.app-web-claude',
+      'example-linux.example-linux-codex',
+      'example-mac.app-web-claude',
     ]);
-    const web = agents.find((a) => a.identity === 'silber.app-web-claude');
+    const web = agents.find((a) => a.identity === 'example-mac.app-web-claude');
     expect(web?.status).toBe('available');
   });
 });

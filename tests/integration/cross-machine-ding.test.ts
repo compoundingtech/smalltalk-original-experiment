@@ -55,7 +55,7 @@ function plantCrossMachine(filename: string, ageMs: number): void {
   const tmp = join(inbox, `.tmp-${filename}`);
   writeFileSync(
     tmp,
-    '---\nfrom: hetz.bob\nsubject: cross-machine live test\n---\nhello from hetz\n',
+    '---\nfrom: example-linux.bob\nsubject: cross-machine live test\n---\nhello from example-linux\n',
   );
   const old = new Date(Date.now() - ageMs);
   utimesSync(tmp, old, old);
@@ -131,7 +131,7 @@ describe('cross-machine live ding', () => {
         expect(ding.pokes.length).toBe(1);
         // The poke carries the correct [DING] text + a trailing Enter.
         expect(ding.pokes[0][0]).toContain('[DING] new smalltalk message');
-        expect(ding.pokes[0][0]).toContain('from hetz.bob');
+        expect(ding.pokes[0][0]).toContain('from example-linux.bob');
         expect(ding.pokes[0]).toContain('key:return');
       } finally {
         await ding.stop();
@@ -156,7 +156,7 @@ describe('cross-machine live ding', () => {
 
         await waitForPokes(ding.pokes, 1);
         expect(ding.pokes.length).toBeGreaterThanOrEqual(1);
-        expect(ding.pokes[0][0]).toContain('from hetz.bob');
+        expect(ding.pokes[0][0]).toContain('from example-linux.bob');
       } finally {
         await ding.stop();
       }
